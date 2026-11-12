@@ -1,0 +1,5 @@
+# Only the files required by the image end up in the build context.
+*
+!Dockerfile
+!entry.sh
+!convert.sh
