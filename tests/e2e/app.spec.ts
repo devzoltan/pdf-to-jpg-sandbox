@@ -206,6 +206,20 @@ test('enlarged view: open, toggle 1:1, close (X/Esc), focus returns, downloads k
   await expect(dialog).toBeHidden();
   await expect(thumb1).toBeFocused();
 
+  // Regression: closing and reopening within one task (before the async 'close' event fires)
+  // must keep the newly opened view intact
+  await thumb2.click();
+  await expect(dialog.getByRole('heading')).toHaveText('Page 2 of 2');
+  await page.evaluate(() => {
+    document.querySelector<HTMLButtonElement>('dialog .close')!.click();
+    document.querySelectorAll<HTMLButtonElement>('ol.pages .thumb')[0]!.click();
+  });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('heading')).toHaveText('Page 1 of 2');
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(thumb1).toBeFocused();
+
   // Download in the overview still works; no new conversion happened
   const [dl1] = await Promise.all([page.waitForEvent('download'), page.getByRole('link', { name: 'Download JPG' }).first().click()]);
   expect(dl1.suggestedFilename()).toBe('page-001.jpg');

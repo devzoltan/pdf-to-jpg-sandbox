@@ -113,9 +113,13 @@ export function App() {
   }, [viewer]);
   /** After closing (X, Esc, click outside) return focus to the preview that opened the viewer. */
   const onViewerClosed = () => {
+    // The 'close' event is dispatched asynchronously. If the viewer was reopened in the meantime,
+    // this event is stale and must not clear the newly opened view.
+    if (dialogRef.current?.open) return;
     setViewer(null);
-    viewerTriggerRef.current?.focus();
+    const trigger = viewerTriggerRef.current;
     viewerTriggerRef.current = null;
+    trigger?.focus();
   };
 
   const onDrop = (e: React.DragEvent) => {
