@@ -1,0 +1,2 @@
+# The repository root is never used as a build context; the worker image builds from worker/ only.
+**

@@ -1,0 +1,5 @@
+# Consistent LF line endings – required for worker/*.sh and the Dockerfile (CRLF would break the worker on Linux).
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary

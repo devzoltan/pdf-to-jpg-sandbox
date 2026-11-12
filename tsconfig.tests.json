@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.server.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "lib": ["ES2023", "DOM"]
+  },
+  "include": ["server/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts", "*.config.ts"]
+}
